@@ -19,7 +19,7 @@ data class Note(
 /*
 
 @Entity(tableName = NOTES_TABLE)
-data class Note (
+data class com.kodexcompany.notesappmvvm.navigation.Note (
     @PrimaryKey
     val id: Int = 0,
     @ColumnInfo

@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun NoteScreen(navController: NavController, viewModel: MainViewModel, noteId: String?) {
     val notes = viewModel.reedAllNotes().observeAsState(listOf()).value
-    val note = when(DB_TYPE){
+    val note = when(DB_TYPE.value){
         TYPE_ROOM -> {
             notes.firstOrNull{ it.id == noteId?.toInt() } ?: Note()
         }
@@ -184,7 +184,7 @@ fun PrevNoteScreen(){
 
 /*
     val notes = viewModel.reedAllNotes().observeAsState(listOf()).value
-    val note = notes.firstOrNull { it.id == noteId?.toInt() } ?: Note(title = Constants.Keys.NOTE, subscribe = Constants.Keys.NOTE)
+    val note = notes.firstOrNull { it.id == noteId?.toInt() } ?: com.kodexcompany.notesappmvvm.navigation.Note(title = Constants.Keys.NOTE, subscribe = Constants.Keys.NOTE)
     val bottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
     var title by remember { mutableStateOf(Constants.Keys.EMPTY)}
@@ -221,7 +221,7 @@ fun PrevNoteScreen(){
                      Button(
                          modifier = Modifier.padding(16.dp),
                          onClick = {
-                             viewModel.updateNote(note = Note(id = note.id, title = title, subscribe = subtitle)
+                             viewModel.updateNote(note = com.kodexcompany.notesappmvvm.navigation.Note(id = note.id, title = title, subscribe = subtitle)
                              ){
                                  navController.navigate(MAIN_SCREEN)
                              }

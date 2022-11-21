@@ -27,13 +27,13 @@ interface DatabaseRepository {
    /* private val mAuth: FirebaseAuth
         get() = FirebaseAuth.getInstance()
 
-    val readAll: LiveData<List<Note>>
+    val readAll: LiveData<List<com.kodexcompany.notesappmvvm.navigation.Note>>
 
-    suspend fun create(note: Note, onSuccess: ()-> Unit)
+    suspend fun create(note: com.kodexcompany.notesappmvvm.navigation.Note, onSuccess: ()-> Unit)
 
-    suspend fun update(note: Note, onSuccess: ()-> Unit)
+    suspend fun update(note: com.kodexcompany.notesappmvvm.navigation.Note, onSuccess: ()-> Unit)
 
-    suspend fun delete(note: Note, onSuccess: ()-> Unit)
+    suspend fun delete(note: com.kodexcompany.notesappmvvm.navigation.Note, onSuccess: ()-> Unit)
 
     fun signOut() {
         mAuth.signOut()

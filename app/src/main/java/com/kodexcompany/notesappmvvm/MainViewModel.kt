@@ -7,9 +7,7 @@ import com.kodexcompany.notesappmvvm.database.firebase.AppFirebaseRepository
 import com.kodexcompany.notesappmvvm.database.room.dao.AppRoomDatabase
 import com.kodexcompany.notesappmvvm.database.room.dao.repository.RoomRepository
 import com.kodexcompany.notesappmvvm.model.Note
-import com.kodexcompany.notesappmvvm.utils.REPOSITORY
-import com.kodexcompany.notesappmvvm.utils.TYPE_FIREBASE
-import com.kodexcompany.notesappmvvm.utils.TYPE_ROOM
+import com.kodexcompany.notesappmvvm.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -69,6 +67,18 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun singOut(onSuccess: () -> Unit){
+        when (DB_TYPE.value){
+            TYPE_FIREBASE,
+                TYPE_ROOM -> {
+                    REPOSITORY.signOut()
+                    DB_TYPE.value = Constants.Keys.EMPTY
+                onSuccess()
+                }
+            else -> { Log.d("checkData", "singOut: ELSE: ${DB_TYPE.value}")}
+        }
+    }
+
     class MainViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 
@@ -104,28 +114,28 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                 }
             }
         }
-        fun addNotes(note: Note, onSuccess: () -> Unit) {
+        fun addNotes(note: com.kodexcompany.notesappmvvm.navigation.Note, onSuccess: () -> Unit) {
             viewModelScope.launch(Dispatchers.IO) {
                 REPOSITORY.create(note = note) {
-                    viewModelScope.launch(Dispatchers.Main) {
+                    viewModelScope.launch(Dispatchers.com.kodexcompany.notesappmvvm.navigation.Main) {
                         onSuccess
                     }
                 }
             }
         }
-    fun updateNote(note: Note,onSuccess: () -> Unit){
+    fun updateNote(note: com.kodexcompany.notesappmvvm.navigation.Note,onSuccess: () -> Unit){
         viewModelScope.launch(Dispatchers.IO){
             REPOSITORY.update(note = note){
-                viewModelScope.launch(Dispatchers.Main){
+                viewModelScope.launch(Dispatchers.com.kodexcompany.notesappmvvm.navigation.Main){
                     onSuccess
                 }
             }
         }
     }
-    fun deleteNote(note: Note,onSuccess: () -> Unit){
+    fun deleteNote(note: com.kodexcompany.notesappmvvm.navigation.Note,onSuccess: () -> Unit){
         viewModelScope.launch(Dispatchers.IO){
             REPOSITORY.delete(note = note){
-                viewModelScope.launch(Dispatchers.Main){
+                viewModelScope.launch(Dispatchers.com.kodexcompany.notesappmvvm.navigation.Main){
                     onSuccess
                 }
             }
