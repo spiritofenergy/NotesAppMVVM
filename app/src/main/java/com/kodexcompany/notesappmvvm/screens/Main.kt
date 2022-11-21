@@ -1,9 +1,7 @@
 package com.kodexcompany.notesappmvvm.screens
 
 import android.app.Application
-import android.util.Log
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,13 +13,11 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -70,7 +66,7 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel) {
     @Composable
     fun NoteItem(note: Note,navController: NavHostController
     ) {
-        val noteId = when(DB_TYPE){
+        val noteId = when(DB_TYPE.value){
             TYPE_FIREBASE -> note.firebaseId
             TYPE_DATABASE -> note.id
             else -> Constants.Keys.EMPTY
@@ -80,7 +76,8 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel) {
                 .fillMaxWidth()
                 .padding(vertical = 8.dp, horizontal = 14.dp)
                 .clickable {
-                    navController.navigate("note_screen" + "/${noteId}")
+                    //По нажатию переходим в саму заметку по id и пережаем его
+                    navController.navigate(Constants.Screens.NOTE_SCREEN + "/${noteId}")
                  },
             elevation = 6.dp
         ) {
@@ -124,7 +121,7 @@ fun PrevMainScreen(){
 
         }
         @Composable
-        fun NoteItem(note: Note, navController: NavHostController) {
+        fun NoteItem(note: com.kodexcompany.notesappmvvm.navigation.Note, navController: NavHostController) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -214,16 +211,16 @@ fun prevMainScreen(){
 
 //        Column() {
 //
-//            listOf<Note>(
-//                Note(title = "Note 1", subtitle = "Subtitle for Note 1"),
-//                Note(title = "Note 2", subtitle = "Subtitle for Note 2"),
-//                Note(title = "Note 3", subtitle = "Subtitle for Note 3"),
-//                Note(title = "Note 4", subtitle = "Subtitle for Note 4")
+//            listOf<com.kodexcompany.notesappmvvm.navigation.Note>(
+//                com.kodexcompany.notesappmvvm.navigation.Note(title = "com.kodexcompany.notesappmvvm.navigation.Note 1", subtitle = "Subtitle for com.kodexcompany.notesappmvvm.navigation.Note 1"),
+//                com.kodexcompany.notesappmvvm.navigation.Note(title = "com.kodexcompany.notesappmvvm.navigation.Note 2", subtitle = "Subtitle for com.kodexcompany.notesappmvvm.navigation.Note 2"),
+//                com.kodexcompany.notesappmvvm.navigation.Note(title = "com.kodexcompany.notesappmvvm.navigation.Note 3", subtitle = "Subtitle for com.kodexcompany.notesappmvvm.navigation.Note 3"),
+//                com.kodexcompany.notesappmvvm.navigation.Note(title = "com.kodexcompany.notesappmvvm.navigation.Note 4", subtitle = "Subtitle for com.kodexcompany.notesappmvvm.navigation.Note 4")
 //            )
-            /* NoteItem(title = "Note 1", subtitle = "Subtitle for Note 1" , navController = navController as NavHostController)
-            NoteItem(title = "Note 2", subtitle = "Subtitle for Note 2" , navController = navController as NavHostController)
-            NoteItem(title = "Note 3", subtitle = "Subtitle for Note 3" , navController = navController as NavHostController)
-            NoteItem(title = "Note 4", subtitle = "Subtitle for Note 4" , navController = navController as NavHostController)
+            /* NoteItem(title = "com.kodexcompany.notesappmvvm.navigation.Note 1", subtitle = "Subtitle for com.kodexcompany.notesappmvvm.navigation.Note 1" , navController = navController as NavHostController)
+            NoteItem(title = "com.kodexcompany.notesappmvvm.navigation.Note 2", subtitle = "Subtitle for com.kodexcompany.notesappmvvm.navigation.Note 2" , navController = navController as NavHostController)
+            NoteItem(title = "com.kodexcompany.notesappmvvm.navigation.Note 3", subtitle = "Subtitle for com.kodexcompany.notesappmvvm.navigation.Note 3" , navController = navController as NavHostController)
+            NoteItem(title = "com.kodexcompany.notesappmvvm.navigation.Note 4", subtitle = "Subtitle for com.kodexcompany.notesappmvvm.navigation.Note 4" , navController = navController as NavHostController)
 */
 
 
@@ -233,7 +230,7 @@ fun prevMainScreen(){
 
 
 //    @Composable
-//    fun NoteItem(note: Note, navController: NavHostController) {
+//    fun NoteItem(note: com.kodexcompany.notesappmvvm.navigation.Note, navController: NavHostController) {
 //        Card(
 //            modifier = Modifier
 //                .fillMaxWidth()
@@ -286,7 +283,7 @@ fun prevMainScreen(){
 //    }
 //}
 //@Composable
-//fun NoteItem(note : Note,
+//fun NoteItem(note : com.kodexcompany.notesappmvvm.navigation.Note,
 //             navController: NavHostController){
 //    Card(
 //        modifier = Modifier

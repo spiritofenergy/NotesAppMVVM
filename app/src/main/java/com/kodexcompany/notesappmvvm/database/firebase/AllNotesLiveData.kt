@@ -14,19 +14,19 @@ class AllNotesLiveData: LiveData<List<Note>>() {
     private val mAuth = FirebaseAuth.getInstance()
     private val database = Firebase.database.reference
         .child(mAuth.currentUser?.uid.toString())
-    private val listener = object : ValueEventListener{
+
+    private val listener = object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
-        val notes = mutableListOf<Note>()
-        snapshot.children.map{
-            notes.add(it.getValue(Note::class.java) ?: Note())
+            val notes = mutableListOf<Note>()
+            snapshot.children.map {
+                notes.add(it.getValue(Note::class.java) ?: Note())
             }
             value = notes
         }
 
-        override fun onCancelled(error: DatabaseError) {
-            TODO("Not yet implemented")
-        }
+        override fun onCancelled(error: DatabaseError) {}
     }
+
 
     override fun onActive() {
         database.addValueEventListener(listener)

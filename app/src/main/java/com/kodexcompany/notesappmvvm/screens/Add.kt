@@ -143,7 +143,7 @@ fun PrevAddScreen(){
                     Button(modifier = Modifier.padding(top = 16.dp),
                         enabled = isButtonEnabled,
                         onClick = {
-                           // viewModel.addNotes(note = Note(title = title, subscribe = subtitle))
+                           // viewModel.addNotes(note = com.kodexcompany.notesappmvvm.navigation.Note(title = title, subscribe = subtitle))
 
                             {
                                 navController.navigate(NOTE_SCREEN)

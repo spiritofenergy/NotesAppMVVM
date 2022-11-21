@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.kodexcompany.notesappmvvm.utils.Constants.Keys.NOTES_TABLE
 
-@Entity(tableName = "notes_table")
+@Entity(tableName = NOTES_TABLE)
 data class Note(
     @PrimaryKey(autoGenerate = true)
     val id : Int = 0,
@@ -14,12 +14,12 @@ data class Note(
     @ColumnInfo
     val subtitle: String = "",
 
-    val firebaseId: String =""
+    val firebaseId: String = ""
 )
 /*
 
 @Entity(tableName = NOTES_TABLE)
-data class Note (
+data class com.kodexcompany.notesappmvvm.navigation.Note (
     @PrimaryKey
     val id: Int = 0,
     @ColumnInfo

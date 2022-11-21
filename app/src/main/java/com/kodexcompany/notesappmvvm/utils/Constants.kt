@@ -1,5 +1,6 @@
 package com.kodexcompany.notesappmvvm.utils
 
+import androidx.compose.runtime.mutableStateOf
 import com.kodexcompany.notesappmvvm.database.DatabaseRepository
 
 const val TYPE_DATABASE = "type_database"
@@ -11,7 +12,7 @@ const val FIREBASE_ID = "firebaseId"
   lateinit var REPOSITORY: DatabaseRepository
   lateinit var LOGIN: String
   lateinit  var PASSWORD: String
-  lateinit  var DB_TYPE: String
+  var DB_TYPE = mutableStateOf("")
 
 object Constants{
     object Keys{
@@ -19,23 +20,23 @@ object Constants{
         const val NOTES_TABLE ="notes_table"
         const val NOTE_TITLE ="Заметка"
         const val NOTE_SUBTITLE ="Подробнее"
-        const val ADD_NOTE ="Добавить дело"
+        const val ADD_NOTE ="Новое дело"
         const val SAFE_NOTE ="Сохранить дело"
         const val TITLE ="title"
         const val SUBTITLE ="subtitle"
-        const val WAT_WELL_WE_YSE ="Что использрвать?"
+        const val WAT_WELL_WE_YSE ="Сохранить"
         const val ROOM_DATABASE ="Room_database"
         const val FIREBASE_DATABASE ="Firebase_database"
         const val ID ="Id"
         const val NOTE ="note"
-        const val UPDATE_NOTE ="Update note"
-        const val DELETE ="Delete"
-        const val NAV_BECK ="Nav beck"
-        const val EDIT_NOTE ="Edit note"
+        const val UPDATE_NOTE ="Изменить"
+        const val DELETE ="Удалить"
+        const val NAV_BECK ="Назад"
+        const val EDIT_NOTE ="Изменить"
         const val LOG_IN ="Log in"
         const val EMPTY =""
-        const val SAFE_ROOM ="Сохранить в Room"
-        const val SAFE_FIREBASE ="В Firebase"
+        const val SAFE_ROOM ="Room"
+        const val SAFE_FIREBASE ="Firebase"
         const val SING_IN ="Sign in"
         const val LOGIN_TEXT ="Логин"
         const val PASSWORD_TEX ="Пароль"

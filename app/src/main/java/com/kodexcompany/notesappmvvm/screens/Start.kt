@@ -69,7 +69,7 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
                             LOGIN = login
                             PASSWORD = password
                             viewModel.initDatabase(TYPE_FIREBASE) {
-                                DB_TYPE = TYPE_FIREBASE
+                                DB_TYPE.value = TYPE_FIREBASE
                                 navController.navigate(Constants.Screens.MAIN_SCREEN)
                             }
                         },
@@ -91,7 +91,7 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
                 Button(
                     onClick = {
                         viewModel.initDatabase(TYPE_ROOM) {
-                            DB_TYPE = TYPE_ROOM
+                            DB_TYPE.value = TYPE_ROOM
                             navController.navigate(Constants.Screens.MAIN_SCREEN)
                         }
                     },
@@ -181,7 +181,7 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
 //                              navController.navigate("main_Screen")
 //
 //
-//                              Log.d("checkData", "Login: $login  Password $password in Start")
+//                              Log.d("checkData", "Login: $login  Password $password in com.kodexcompany.notesappmvvm.navigation.Start")
 //                          }
 //                        },
 //                        enabled = login.isNotEmpty() && password.isNotEmpty()

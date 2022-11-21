@@ -48,11 +48,14 @@ class AppFirebaseRepository:  DatabaseRepository {
               .updateChildren(mapNotes)
               .addOnSuccessListener { onSuccess() }
               .addOnFailureListener { Log.d("checkData", "Failed to update note") }
-}
+      }
 
       override suspend fun delete(note: Note, onSuccess: () -> Unit) {
-        TODO("Not yet implemented")
-    }
+        database.child(note.firebaseId)
+            .removeValue()
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { Log.d("checkData", "Failed to delete note") }
+      }
 
       override fun signOut() {
         mAuth.signOut()

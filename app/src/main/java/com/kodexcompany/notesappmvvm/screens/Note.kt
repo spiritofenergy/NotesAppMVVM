@@ -20,24 +20,28 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.kodexcompany.notesappmvvm.MainViewModel
 import com.kodexcompany.notesappmvvm.model.Note
+import com.kodexcompany.notesappmvvm.navigation.NavRoute
 import com.kodexcompany.notesappmvvm.ui.theme.NotesAppMVVMTheme
 import com.kodexcompany.notesappmvvm.utils.Constants
 import com.kodexcompany.notesappmvvm.utils.Constants.Keys.EDIT_NOTE
 import com.kodexcompany.notesappmvvm.utils.DB_TYPE
 import com.kodexcompany.notesappmvvm.utils.TYPE_FIREBASE
 import com.kodexcompany.notesappmvvm.utils.TYPE_ROOM
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun NoteScreen(navController: NavController, viewModel: MainViewModel, noteId: String?) {
+    //Получим список всех заметок
     val notes = viewModel.reedAllNotes().observeAsState(listOf()).value
-    val note = when(DB_TYPE){
+    //Получим текущую заметку
+    val note = when(DB_TYPE.value){
+        //Усли созранена в Room
         TYPE_ROOM -> {
             notes.firstOrNull{ it.id == noteId?.toInt() } ?: Note()
         }
+        //Если созранена в Firebase
         TYPE_FIREBASE -> {
             notes.firstOrNull{ it.firebaseId == noteId} ?: Note()
         }
@@ -45,10 +49,9 @@ fun NoteScreen(navController: NavController, viewModel: MainViewModel, noteId: S
     }
     val bottomSheetState = rememberModalBottomSheetState(Hidden)
     val coroutineScope = rememberCoroutineScope()
-
     var title by remember {mutableStateOf(Constants.Keys.EMPTY)}
     var subtitle by remember {mutableStateOf(Constants.Keys.EMPTY)}
-
+        //Всплывающее окно BottomShit
     ModalBottomSheetLayout(
         sheetState = bottomSheetState,
         sheetElevation = 5.dp,
@@ -80,15 +83,15 @@ fun NoteScreen(navController: NavController, viewModel: MainViewModel, noteId: S
                     )
                     Button(modifier = Modifier.padding(top = 26.dp),
                         onClick = {
-                                viewModel.updateNote(note =
-                            Note(id = note.id, title = title, subtitle = subtitle, firebaseId = note.firebaseId )
-                            ){
-                                navController.navigate(Constants.Screens.MAIN_SCREEN)
-                            }
+                                viewModel.updateNote(
+                                    note = Note(
+                                        id = note.id,
+                                        title = title,
+                                        subtitle = subtitle,
+                                        firebaseId = note.firebaseId)){
+                                navController.navigate(NavRoute.Main.route) }
                         }) {
-                        Text(text = Constants.Keys.UPDATE_NOTE)
-
-                    }
+                        Text(text = Constants.Keys.UPDATE_NOTE) }
                 }
             }
         }) {
@@ -119,9 +122,7 @@ fun NoteScreen(navController: NavController, viewModel: MainViewModel, noteId: S
                             fontWeight = FontWeight.Light,
                             modifier = Modifier.padding(top = 16.dp))
                     }
-
                 }
-
                 Row(modifier = Modifier
                     .padding(32.dp)
                     .fillMaxWidth(),
@@ -135,17 +136,18 @@ fun NoteScreen(navController: NavController, viewModel: MainViewModel, noteId: S
                                 subtitle = note.subtitle
                                 bottomSheetState.show()
                             }
-                            Log.d("CheckData", "ADD_NOTE")
                         }) {
 
-                        Text(text = Constants.Keys.ADD_NOTE)
+                        Text(text = EDIT_NOTE)
                     }
                     Button(
                         onClick = {
-                            Log.d("CheckData", "UPDATE_NOTE")
+                            viewModel.deleteNote(note = note){
+                                navController.navigate(Constants.Screens.MAIN_SCREEN)
+                            Log.d("CheckData", "UPDATE_NOTE")}
                         }) {
 
-                        Text(text = Constants.Keys.UPDATE_NOTE)
+                        Text(text = Constants.Keys.DELETE)
                     }
                 }
                 Button(modifier = Modifier
@@ -153,11 +155,10 @@ fun NoteScreen(navController: NavController, viewModel: MainViewModel, noteId: S
                     .padding(horizontal = 32.dp)
                     .fillMaxWidth(),
                     onClick = {
-                        viewModel.deleteNote(note = note){
-                        navController.navigate(Constants.Screens.MAIN_SCREEN)}
+                        navController.navigate(Constants.Screens.MAIN_SCREEN)
                         Log.d("CheckData", "DELETE")
                     }) {
-                    Text(text = Constants.Keys.DELETE)
+                    Text(text = Constants.Keys.NAV_BECK)
                 }
             }
         }
@@ -184,7 +185,7 @@ fun PrevNoteScreen(){
 
 /*
     val notes = viewModel.reedAllNotes().observeAsState(listOf()).value
-    val note = notes.firstOrNull { it.id == noteId?.toInt() } ?: Note(title = Constants.Keys.NOTE, subscribe = Constants.Keys.NOTE)
+    val note = notes.firstOrNull { it.id == noteId?.toInt() } ?: com.kodexcompany.notesappmvvm.navigation.Note(title = Constants.Keys.NOTE, subscribe = Constants.Keys.NOTE)
     val bottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
     var title by remember { mutableStateOf(Constants.Keys.EMPTY)}
@@ -221,7 +222,7 @@ fun PrevNoteScreen(){
                      Button(
                          modifier = Modifier.padding(16.dp),
                          onClick = {
-                             viewModel.updateNote(note = Note(id = note.id, title = title, subscribe = subtitle)
+                             viewModel.updateNote(note = com.kodexcompany.notesappmvvm.navigation.Note(id = note.id, title = title, subscribe = subtitle)
                              ){
                                  navController.navigate(MAIN_SCREEN)
                              }
